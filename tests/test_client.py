@@ -11,27 +11,30 @@ class TestClient(unittest.TestCase):
     def test_create_client(self):
         self.assertEqual('http://localhost:8000', self.client.url)
 
-    @patch('siphon.base_client.make_request')
+    @patch('siphon.base_client.BaseClient.get')
     def test_get_request(self, request):
-        response = {
+        response, status_code = {
             'id': 'foo',
             'type': 'email',
             'creator': 'mitch'
-        }
-        request.return_value = response
-        resp = self.client.get('/dequeue/foo123')
+        }, 200
+        request.return_value = response, status_code
+        resp, status_code = self.client.get('/dequeue/foo123')
         self.assertEqual(response, resp)
-        request.assert_called_with('GET', '/dequeue/foo123')
+        self.assertEqual(200, status_code)
+        request.assert_called_with('/dequeue/foo123')
 
-    @patch('siphon.base_client.make_request')
+    @patch('siphon.base_client.BaseClient.post')
     def test_post_request(self, request):
-        response = {
+        response, status_code = {
             'id': 'foo',
             'type': 'email',
             'creator': 'mitch'
-        }
+        }, 201
 
-        request.return_value = response
-        resp = self.client.post('/dequeue/foo123')
+        request.return_value = response, status_code
+        resp, status_code = self.client.post('/dequeue/foo123')
+        self.assertEqual(201, status_code)
         self.assertEqual(response, resp)
-        request.assert_called_with('POST', '/dequeue/foo123', data=None)
+        request.assert_called_with('/dequeue/foo123')
+
