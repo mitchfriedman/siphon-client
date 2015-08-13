@@ -1,6 +1,6 @@
 import unittest
-from unittest.mock import patch
-from client.base_client import BaseClient
+from mock import patch
+from siphon.base_client import BaseClient
 
 
 class TestClient(unittest.TestCase):
@@ -11,7 +11,7 @@ class TestClient(unittest.TestCase):
     def test_create_client(self):
         self.assertEqual('http://localhost:8000', self.client.url)
 
-    @patch('client.base_client.make_request')
+    @patch('siphon.base_client.make_request')
     def test_get_request(self, request):
         response = {
             'id': 'foo',
@@ -23,7 +23,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(response, resp)
         request.assert_called_with('GET', '/dequeue/foo123')
 
-    @patch('client.base_client.make_request')
+    @patch('siphon.base_client.make_request')
     def test_post_request(self, request):
         response = {
             'id': 'foo',

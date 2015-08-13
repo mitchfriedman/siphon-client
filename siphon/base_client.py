@@ -7,10 +7,10 @@ class BaseClient(object):
         self.url = siphon_url
 
     def get(self, path):
-        return make_request("GET", path)
+        response = make_request("GET", path)
 
     def post(self, path, data=None):
-        return make_request("POST", path, data=data)
+        response = make_request("POST", path, data=data)
 
 
 def make_request(method, url, data=None):
