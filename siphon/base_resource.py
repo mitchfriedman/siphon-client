@@ -29,7 +29,7 @@ class ListResource(object):
     response_key = None
     instance = InstanceResource
 
-    def __init__(self, client, **kwargs):
+    def __init__(self, client):
         self.client = client
 
         self.uri = '{base}'.format(base=self.client.uri)
