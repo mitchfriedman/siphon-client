@@ -47,10 +47,7 @@ class ListResource(object):
         return self._build_instance(response)
 
     def update_instance(self, name, **kwargs):
-        uri = self._build_instance_uri(name)
-        action = kwargs.pop('action', None)
-        if action:
-            uri += '/{action}'.format(action=action)
+        uri, kwargs = self._build_instance_uri(name, **kwargs)
 
         response, status_code = self.client.post(uri, data=kwargs)
         return self._build_instance(response)
@@ -68,5 +65,10 @@ class ListResource(object):
         instance.load_data(response)
         return instance
 
-    def _build_instance_uri(self, name):
-        return '{uri}/{name}'.format(uri=self.uri, name=name)
+    def _build_instance_uri(self, name, **kwargs):
+        uri = '{uri}/{name}'.format(uri=self.uri, name=name)
+        action = kwargs.pop('action', None)
+        if action:
+            uri += '/{action}'.format(action=action)
+
+        return uri, kwargs

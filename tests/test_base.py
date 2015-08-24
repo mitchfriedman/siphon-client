@@ -23,4 +23,3 @@ class TestListResource(unittest.TestCase):
         instance = self.resource.get_instance('foo')
         self.assertEqual('foo', instance.name)
         self.assertEqual({}, instance.data)
-
