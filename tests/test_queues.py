@@ -28,7 +28,7 @@ class TestQueues(unittest.TestCase):
         self.assertEqual('foo', fetched.name)
 
     @patch('siphon.Client.post')
-    def test_remove_from_queue(self, response):
+    def test_dequeue(self, response):
         response.return_value = {
             'item': {
                 'val': 'bazz'
